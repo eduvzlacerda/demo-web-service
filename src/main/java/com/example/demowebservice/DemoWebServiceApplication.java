@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoWebServiceApplication {
 
     public static void main(String[] args) {
+        int o = 2;
         SpringApplication.run(DemoWebServiceApplication.class, args);
     }
 
