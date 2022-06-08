@@ -7,6 +7,8 @@ import com.example.demowebservice.utils.UserConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -14,9 +16,10 @@ public class UserService {
     private UserRepository userRepository;
 
     public UserDTO createUser(UserDTO userDTO){
-       User savedUser = userRepository.save(UserConverter.convertUserDTO2User(userDTO));
-       UserDTO savedUserDTO = UserConverter.convertUser2UserDTO(savedUser);
-       return savedUserDTO;
+        userDTO.setUserId(UUID.randomUUID());
+        User savedUser = userRepository.save(UserConverter.convertUserDTO2User(userDTO));
+        UserDTO savedUserDTO = UserConverter.convertUser2UserDTO(savedUser);
+        return savedUserDTO;
     }
 
 }
