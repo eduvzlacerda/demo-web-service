@@ -16,10 +16,25 @@ public class UserService {
     private UserRepository userRepository;
 
     public UserDTO createUser(UserDTO userDTO){
-        userDTO.setUserId(UUID.randomUUID());
+        if(userAlreadyExists(userDTO.getEmail())){
+            throw new RuntimeException(" The provided Email is already used");
+        }
+        setUUID(userDTO);
+
         User savedUser = userRepository.save(UserConverter.convertUserDTO2User(userDTO));
         UserDTO savedUserDTO = UserConverter.convertUser2UserDTO(savedUser);
         return savedUserDTO;
+    }
+
+    private boolean userAlreadyExists(String email){
+        if(userRepository.existsByEmail(email)){
+            return true;
+        }
+        return false;
+    }
+
+    private void setUUID(UserDTO userDTO){
+        userDTO.setUserId(UUID.randomUUID());
     }
 
 }
