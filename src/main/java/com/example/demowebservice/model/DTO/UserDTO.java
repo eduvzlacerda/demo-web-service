@@ -1,6 +1,7 @@
 package com.example.demowebservice.model.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class UserDTO {
     private String lastName;
     @NotEmpty(message = "email can't be empty")
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "password can't be empty")
     private String password;
 }
