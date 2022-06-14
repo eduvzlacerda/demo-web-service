@@ -10,8 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -31,10 +30,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http.csrf().disable().authorizeRequests()
-               .antMatchers(HttpMethod.POST, "/users")
+        http.csrf().disable(); //https://spring.io/blog/2013/08/21/spring-security-3-2-0-rc1-highlights-csrf-protection/
+
+        http.authorizeRequests()
+               .antMatchers(HttpMethod.POST, SecurityConstants.SIGNUP_URL)
                .permitAll()
-               .anyRequest().authenticated();
+               .anyRequest().authenticated()
+                .and().addFilter(new AuthenticationFilter(authenticationManager()))
+                .addFilter(new AuthorizationFilter(authenticationManager()));
+
     }
+
+
+
 
 }

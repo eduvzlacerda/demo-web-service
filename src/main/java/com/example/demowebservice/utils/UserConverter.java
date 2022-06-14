@@ -1,28 +1,28 @@
 package com.example.demowebservice.utils;
 
 import com.example.demowebservice.model.DTO.UserDTO;
-import com.example.demowebservice.model.entity.User;
+import com.example.demowebservice.model.entity.UserEntity;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UserConverter {
 
-    public static User convertUserDTO2User(UserDTO userDTO){
-        return User.builder()
+    public static UserEntity convertUserDTO2User(UserDTO userDTO){
+        return UserEntity.builder()
                 .id(userDTO.getUserId())
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
                 .email(userDTO.getEmail())
-                .encPassword("password")
+                .encPassword(userDTO.getPassword())
                 .build();
     }
-    public static UserDTO convertUser2UserDTO(User user){
+    public static UserDTO convertUser2UserDTO(UserEntity userEntity){
         return UserDTO.builder()
-                .userId(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .password(user.getEncPassword())
+                .userId(userEntity.getId())
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .email(userEntity.getEmail())
+                .password(userEntity.getEncPassword())
                 .build();
     }
 

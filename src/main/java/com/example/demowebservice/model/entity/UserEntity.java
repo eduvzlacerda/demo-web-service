@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder(toBuilder = true)
-public class User {
+public class UserEntity {
     @Id
     private UUID id;
     @Column(nullable = false)
