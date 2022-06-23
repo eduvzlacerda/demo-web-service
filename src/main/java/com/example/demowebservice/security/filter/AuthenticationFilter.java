@@ -1,6 +1,7 @@
-package com.example.demowebservice.security;
+package com.example.demowebservice.security.filter;
 
 import com.example.demowebservice.model.DTO.UserLoginRequestDTO;
+import com.example.demowebservice.security.SecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -48,7 +49,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String token = Jwts.builder()
                 .setSubject(email)
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512,SecurityConstants.TOKEN_SECRET)
+                .signWith(SignatureAlgorithm.HS512,SecurityConstants.getTokenSecret())
                 .compact();
 
         response.addHeader(SecurityConstants.HEADER_STRING,SecurityConstants.TOKEN_PREFIX + token);

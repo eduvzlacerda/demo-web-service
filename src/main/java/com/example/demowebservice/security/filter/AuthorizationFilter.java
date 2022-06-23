@@ -1,5 +1,6 @@
-package com.example.demowebservice.security;
+package com.example.demowebservice.security.filter;
 
+import com.example.demowebservice.security.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,7 +42,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
       //Um Jwt to get usr details from the web token
        String user = Jwts.parser()
-               .setSigningKey(SecurityConstants.TOKEN_SECRET)
+               .setSigningKey(SecurityConstants.getTokenSecret())
                .parseClaimsJws(token)
                .getBody()
                .getSubject();
