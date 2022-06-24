@@ -11,6 +11,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.UUID;
+
 @Validated
 @Controller
 @RequestMapping("users")
@@ -26,8 +29,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserDetails(@PathVariable String id){
+       UserDTO userDTO = userService.findUserById(id);
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getUsers(){
+        return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK) ;
     }
 
 }

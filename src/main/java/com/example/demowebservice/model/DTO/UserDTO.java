@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @Builder(toBuilder = true)
 public class UserDTO {
-    private UUID userId;
+    private String userId;
     @NotEmpty(message = "First name can't be empty")
     private String firstName;
     private String lastName;

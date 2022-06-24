@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -15,9 +16,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder(toBuilder = true)
-public class UserEntity {
+public class UserEntity{
     @Id
-    private UUID id;
+    private String id;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)

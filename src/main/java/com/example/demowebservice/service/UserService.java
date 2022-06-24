@@ -13,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class UserService implements UserDetailsService {
         if (userAlreadyExists(userDTO.getEmail())) {
             throw new RuntimeException(" The provided Email is already used");
         }
-        setUUID(userDTO);
+        setUserId(userDTO);
         encodePassword(userDTO);
 
         UserEntity savedUserEntity = userRepository.save(UserConverter.convertUserDTO2User(userDTO));
@@ -36,12 +38,36 @@ public class UserService implements UserDetailsService {
 
     public UserEntity findUserByEmail(String email) {
         UserEntity userEntity = userRepository.findByEmail(email);
-        if (email == null) {
-            throw new UsernameNotFoundException("user not found in db");
+        if(userEntity==null){
+            throw new UsernameNotFoundException("User name does not exit");
         }
         return userEntity;
     }
 
+    public UserDTO findUserById(String id){
+       UserEntity userEntity = userRepository.findById(id).get();
+        return UserConverter.convertUser2UserDTO(userEntity);
+    }
+
+
+
+
+
+
+
+    //TODO: Hardcoded array list
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = findUserByEmail(email);
+        return new User(userEntity.getEmail(), userEntity.getEncPassword(), new ArrayList<>());
+    }
+
+    public List<UserDTO> getUsers() {
+        return userRepository.findAll().stream()
+                .map( u -> UserConverter.convertUser2UserDTO(u))
+                .collect(Collectors.toList());
+
+    }
 
     private boolean userAlreadyExists(String email) {
         return userRepository.findByEmail(email) != null;
@@ -50,16 +76,7 @@ public class UserService implements UserDetailsService {
     private void encodePassword(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
     }
-
-
-    private void setUUID(UserDTO userDTO) {
-        userDTO.setUserId(UUID.randomUUID());
-    }
-
-    //TODO: Hardcoded array list
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity userEntity = findUserByEmail(email);
-        return new User(userEntity.getEmail(), userEntity.getEncPassword(), new ArrayList<>());
+    private void setUserId(UserDTO userDTO) {
+        userDTO.setUserId(UUID.randomUUID().toString());
     }
 }
