@@ -49,24 +49,17 @@ public class UserService implements UserDetailsService {
         return UserConverter.convertUser2UserDTO(userEntity);
     }
 
-
-
-
-
-
-
-    //TODO: Hardcoded array list
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity userEntity = findUserByEmail(email);
-        return new User(userEntity.getEmail(), userEntity.getEncPassword(), new ArrayList<>());
-    }
-
     public List<UserDTO> getUsers() {
         return userRepository.findAll().stream()
                 .map( u -> UserConverter.convertUser2UserDTO(u))
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = findUserByEmail(email);
+        return new User(userEntity.getEmail(), userEntity.getEncPassword(), new ArrayList<>());
     }
 
     private boolean userAlreadyExists(String email) {
