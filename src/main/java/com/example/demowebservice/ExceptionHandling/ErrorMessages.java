@@ -11,8 +11,8 @@ public enum ErrorMessages {
     RECORD_ALREADY_EXISTS("Record already exists"),
     NO_RECORD_FOUND("Record with provided field does not exist"),
     COULD_NOT_UPDATE_RECORD("Could not update record"),
-    COULD_NOT_DELETE_RECORD("Could not delete record");
-
+    COULD_NOT_DELETE_RECORD("Could not delete record"),
+    INCORRECT_INPUT_PARAMETER("Incorrect input request parameter");
     private String errorMessage;
 
     public void setErrorMessage(String errorMessage) {

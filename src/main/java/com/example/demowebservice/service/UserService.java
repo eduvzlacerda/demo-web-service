@@ -65,6 +65,9 @@ public class UserService implements UserDetailsService {
 
     public List<UserDTO> getAllUsersPaginated(int page, int limit) {
 
+        if(page < 0 && limit < 0){
+            throw new UserServiceException(ErrorMessages.INCORRECT_INPUT_PARAMETER.getErrorMessage());
+        }
         Pageable paging = PageRequest.of(page,limit);
 
         return userRepository.findAll(paging).stream()

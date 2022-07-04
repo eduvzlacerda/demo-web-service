@@ -18,7 +18,7 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> handleExceptions(UserServiceException ex , WebRequest request){
+    public ResponseEntity<Object> handleExceptions(Exception ex , WebRequest request){
         ErrorMessage errorMessage = new ErrorMessage(new Date(),ex.getMessage());
         return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
